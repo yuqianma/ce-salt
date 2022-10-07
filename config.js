@@ -67,12 +67,11 @@ var config = {
             id: 'ch3',
             alignment: 'left',
             hidden: false,
-            title: 'Salt Tax',
+            title: 'The Beginning of Salt Monopoly',
             // image: '',
             description: `
             <img style="height: 200px; object-fit: contain;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Guan_Zhong.png/168px-Guan_Zhong.png" />
             <p>In the eighth century B.C., <b>Guan Zhong</b> created a salt monopoly as part of his economic reforms in Qi.</p>
-            <p>It is the beginning of salt monopoly in China.</p>
             <p style="opacity:0.6;">Guan Zhong argued that direct taxes created resentment among the people, but extolled indirect taxes, such as those on salt and iron:</p>
             <p style="opacity:0.6;">If you were going to issue an order, "I am going to collect head money upon all of you people, both adults and children," they would certainly remonstrate loudly and angrily against you. However, if you take firm control over the policy on salt, the people cannot manage to dodge it even though you are going to take a profit of one hundred times over.”</p>
             `,
