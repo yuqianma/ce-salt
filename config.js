@@ -68,8 +68,9 @@ var config = {
             alignment: 'left',
             hidden: false,
             title: 'Salt Tax',
-            // image: './path/to/image/source.png',
+            // image: '',
             description: `
+            <img style="height: 200px; object-fit: contain;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Guan_Zhong.png/168px-Guan_Zhong.png" />
             <p>In the eighth century B.C., <b>Guan Zhong</b> created a salt monopoly as part of his economic reforms in Qi.</p>
             <p>It is the beginning of salt monopoly in China.</p>
             <p style="opacity:0.6;">Guan Zhong argued that direct taxes created resentment among the people, but extolled indirect taxes, such as those on salt and iron:</p>
@@ -94,14 +95,14 @@ var config = {
             image: './path/to/image/source.png',
             description: 'Copy these sections to add to your story.',
             location: {
-                center: [-58.54195, -34.71600],
-                zoom: 4,
-                pitch: 0,
-                bearing: 0
+                center: { lon: 102.86190, lat: 34.16335 },
+                zoom: 2.87,
+                pitch: 0.00,
+                bearing: 0.00
             },
             mapAnimation: 'flyTo',
             rotateAnimation: false,
-            callback: 'disableScroll',
+            // callback: 'disableScroll',
             onChapterEnter: [],
             onChapterExit: []
         }
