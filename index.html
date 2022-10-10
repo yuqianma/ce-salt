@@ -1,475 +1,372 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8' />
-    <title>Salt and State Monopoly</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/mapbox/assembly/publisher-staging/src/svgs/mapbox.svg">
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' />
-    <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
-    <script src="https://unpkg.com/scrollama"></script>
-    <style>
-        body {
-            margin:0;
-            padding:0;
-            font-family: sans-serif;
-        }
-        a, a:hover, a:visited {
-            color: #0071bc;
-        }
-        #map {
-            top:0;
-            height: 100vh;
-            width:100vw;
-            position: fixed;
-        }
-        #mapInset {
-            bottom:50px;
-            right:30px;
-            height: 180px;
-            width:250px;
-            max-width:100%;
-            position: fixed;
-            z-index: 1;
-            opacity: 1;
-            transition: opacity 0.5s ease-in-out;
-            pointer-events: none;
-        }
-        #mapInset .mapboxgl-ctrl-bottom-left{
-            display: none;
-        }
-        @media (max-width: 500px) {
-            #mapInset {
-                display: none;
-            }
-        }
-        #header {
-            margin: auto;
-            width: 100%;
-            position: relative;
-            z-index: 5;
-        }
-        #header h1, #header h2, #header p {
-            margin: 0;
-            padding: 2vh 2vw;
-            text-align: center;
-        }
-        #footer {
-            width: 100%;
-            min-height: 5vh;
-            padding-top: 2vh;
-            padding-bottom: 2vh;
-            text-align: center;
-            line-height: 25px;
-            font-size: 13px;
-            position: relative;
-            z-index: 5;
-        }
-        #features {
-            padding-top: 10vh;
-            padding-bottom: 10vh;
-        }
-        .hidden {
-            visibility: hidden;
-        }
-        .centered {
-            width: 50vw;
-            margin: 0 auto;
-        }
-        .lefty {
-            width: 33vw;
-            margin-left: 5vw;
-        }
-        .righty {
-            width: 33vw;
-            margin-left: 62vw;
-        }
-        .fully {
-            width: 100%;
-            margin: auto;
-        }
-        .light {
-            color: #444;
-            background-color: #fafafa;
-        }
-        .dark {
-            color: #fafafa;
-            background-color: #444;
-        }
-        .step {
-            padding-bottom: 50vh;
-            /* margin-bottom: 10vh; */
-            opacity: 0.25;
-        }
-        .step.active {
-            opacity: 0.9;
-        }
+<meta charset="utf-8">
+<title>Salt in Ancient Chinese Economy</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+<style>
+:root {
+  --main-text-color: #4f4f4f;
+}
+body { margin: 0; padding: 0; }
+a {
+	text-decoration: inherit;
+	color: inherit;
+}
+p {
+	margin: 0;
+}
+a:visited {
+	color: inherit;
+}
+.bold {
+	font-weight: bold;
+	text-decoration: underline;
+}
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+#content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	box-sizing: border-box;
+	color: #fff;
+	padding: 5vh 5vw;
+	font-family: serif;
+	/* font-size: 1.2rem; */
 
-        .step div {
-            padding:  25px 50px;
-            line-height: 25px;
-            font-size: 13px;
-        }
+	display: flex;
+	/* flex-direction: row; */
+	/* align-items: center; */
+	/* justify-content: center; */
+}
+.page {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	display: none; /* hack */
+}
+.page.center {
+	align-items: center;
+}
+#header {
+	/* text-shadow: 0px 0px 6px #4d4d4d; */
+	text-align: center;
+}
+.button {
+	display: inline-box;
+	padding: 0.25rem 1rem;
+	border: 2px solid var(--main-text-color);
+	box-shadow: 2px 1px 1px white, inset 2px 1px 1px white;
+	border-radius: 1rem;
+	cursor: pointer;
+	margin: 0.5rem;
+}
+.button:hover {
+	/* border-color: #10899d; */
+	background-color: rgba(255, 255, 255, 0.5);
+}
+.info {
+	padding: 5%;
+	/* backdrop-filter: blur(5px) sepia(0.2); */
+	/* backdrop-filter: blur(0px) saturate(0.5); */
+}
+.card {
+	backdrop-filter: blur(2px) brightness(0.5);
+	border-radius: 10px;
+}
+.text1 {
+	color: var(--main-text-color);
+	text-shadow: 2px 1px 1px white;
+}
+.options .button[data-right].selected::before {
+	content: "✅";
+}
+.options .button[data-wrong].selected::before {
+	content: "❌";
+}
+.explanation {
+	opacity: 0;
+	transition: 1s;
+}
+.answered .explanation {
+	opacity: 1;
+}
+.interesting {
+	margin-top: 1rem;
+	border: 2px solid var(--main-text-color);
+	border-radius: 10px;
+	padding: 1rem;
+}
+#introduction {
+	font-size: 1.4rem;
+	margin: 0 20vw;
+}
+#introduction p {
+	margin: 1rem 0;
+}
+#ch1 {
+	width: 40%;
+	align-self: flex-start;
+}
+#ch2 {
+	width: 40%;
+	align-self: flex-start;
+}
+#ch3 {
+	width: 40%;
+	align-self: flex-start;
+}
+#end {
+	font-size: 1.4rem;
+}
 
-        .step img {
-            width: 100%;
-        }
-
-        @media (max-width: 750px) {
-            .centered, .lefty, .righty, .fully {
-                width: 90vw;
-                margin: 0 auto;
-            }
-        }
-
-        /* Fix issue on mobile browser where scroll breaks  */
-        .mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan,
-        .mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan .mapboxgl-canvas {
-            touch-action: unset;
-        }
-
-        </style>
+#back {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 2px solid var(--main-text-color);
+	text-align: center;
+	vertical-align: middle;
+	line-height: 50px;
+	font-size: 40px;
+	color: var(--main-text-color);
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
-
 <div id="map"></div>
-<div id="mapInset"></div>
-<div id="story"></div>
-
-<script src="./config.js"></script>
+<div id="content">
+	<div id="header" class="page center text1">
+		<h1>Salt in Ancient Chinese Economy</h1>
+		<h3 style="margin-top: 0;">By Yuqian</h3>
+		<a class="button" href="#introduction">Enter</a>
+	</div>
+	<div id="introduction" class="page center info text1">
+		<div>
+			<p>Salt, salt production, and salt taxes played key roles in Chinese history, economic development, and relations between state and society.</p>
+			<p>Debate over government salt policies brought forth conflicting attitudes toward the nature of government, private wealth, the relation between the rich and the poor, while the administration of these salt policies was a practical test of a government's competence.</p>
+			<p class="bold">Next, you'll go to 3 historical periods to learn about them.</p>
+		</div>
+		<a class="button" href="#ch1">GO!</a>
+	</div>
+	<div id="ch1" class="page ques">
+		<div class="info card">
+			<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Guan_Zhong.png/168px-Guan_Zhong.png" />
+			<p>State of Qi (1046-221 BC, 齐国) was rich in salt.</p>
+			<p>Once, the politician Guan Zhong (Guanzi) and Duke Huan were discussing economic policies.</p>
+			<!-- <p>"The state of Qi is rich in salt. If we were to tax salt, we would be able to raise a large amount of money. But if we were to tax salt, the people would be unhappy."</p> -->
+			<!-- <p>“I wish to place a special tax on trees.”
+	“This will lead to chopping down those that are alive.” Guanzi replied.
+“I wish to place a special tax on the six domestic animals.”
+	“This will lead to killing the living.”
+</p> -->
+			<p style="white-space: pre;">“I wish to place a special tax on towers and pavilions. What about it?”
+	“This will harm construction,” replied Guanzi.
+	...
+“I wish to place a special tax on men. What about that?”
+	“That will lead to their concealing their true numbers.”
+“How am I to run the country?”
+If you were Guanzi, you would:</p>
+			<div class="options" style="margin: 1rem 0;">
+				<p class="button" data-wrong>A: place a special tax on salt.</p>
+				<p class="button" data-right>B: place a monopoly on salt.</p>
+			</div>
+			<div class="explanation">
+				<div>
+					<p>What is the difference between them?</p>
+					<p>The monopoly on salt is an indirect tax.</p>
+					<p>Guan Zhong argued that <span class="bold">direct taxes</span> created resentment among the people, but extolled <span class="bold">indirect taxes</span>, such as those on salt and iron.</p>
+					<p>&nbsp;</p>
+					<p>Even in China today, most taxes are taken as hidden taxes.</p>
+					<p>You can hardly see the tax rate on a receipt.</p>
+					<p>&nbsp;</p>
+					<p>What is the tax form in your place?</p>
+				</div>
+				<a class="button" style="float: right;" href="#ch2">Next</a>
+			</div>
+		</div>
+	</div>
+	<div id="ch2" class="page ques">
+		<div class="info card">
+			<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/%E6%BC%A2%E6%AD%A6%E5%B8%9D.jpg/176px-%E6%BC%A2%E6%AD%A6%E5%B8%9D.jpg" />
+			<p>Emperor Wu of Han (156-87 BC, 汉武帝) was considering whether to carry out economic reforms, including restoring a monopoly on salt. But it would increase the burden of the people.</p>
+			<p>If you were Emperor Wu, you would:</p>
+			<div class="options" style="margin: 1rem 0;">
+				<p class="button" data-right>A: place the monopoly on salt and iron.</p>
+				<p class="button" data-wrong>B: continue the policy of doing nothing.</p>
+			</div>
+			<div class="explanation">
+				<div>
+					<p>In reaction to Emperor Wu' expansionary wars, his agricultural minister Sang Hongyang created national monopolies for salt and iron.</p>
+					<p>&nbsp;</p>
+					<p>However, monopoly is not the whole of economic policy, which has a range of measures, such as price adjustment policy(Pingzhun, 平准):</p>
+					<p>The national treasury would purchase consumer goods when the prices were low and sell them when the prices were high at profit. Thus making sure the price fluctuation would not be too great.</p>
+					<p>&nbsp;</p>
+					<p>Have you seen similar economic policies?</p>
+					<!-- <p>There was also a famous debate in the Han Dynasty, Discourses on Salt and Iron.</p> -->
+				</div>
+				<div class="interesting">
+					<p>Interesting hypothesis:</p>
+					<p>You "killed"/"saved" Rome!</p>
+					<p>There is a hypothesis that the Xiongnu were defeated by the Han Dynasty and migrated to Europe, i.e. the Huns, which eventually caused the fall of Rome.</p>
+				</div>
+				<a class="button" style="float: right;" href="#ch3">Next</a>
+			</div>
+		</div>
+	</div>
+	<div id="ch3" class="page ques">
+		<div class="info card">
+			<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/%E4%BA%94%E8%B7%AF%E4%BC%90%E5%A4%8F%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png/320px-%E4%BA%94%E8%B7%AF%E4%BC%90%E5%A4%8F%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png" />
+			<p>Northern Song dynasty and Western Xia dynasty had military conflicts. (10th to 12th century)</p>
+			<p>The Xia had famed ‘dark and white salt’, both of high quality and at low prices.</p>
+			<p>If you were the Emperor of Song, you would:</p>
+			<div class="options" style="margin: 1rem 0;">
+				<p class="button" data-wrong>A: impose tariff on salt.</p>
+				<p class="button" data-right>B: ban on salt import.</p>
+			</div>
+			<div class="explanation">
+				<p>The Xia made a lot of profit from the salt trade.</p>
+				<p>Once the trade was banned, it was difficult for the Xia to consume so much salt because of its own small population.</p>
+				<p>Apparently, the Song used salt as an economic weapon.</p>
+				<p>&nbsp;</p>
+				<p>Do you know other economic wars? What are weapons there?</p>
+				<a class="button" style="float: right;" href="#end">Next</a>
+			</div>
+		</div>
+	</div>
+	<div id="end" class="page center info text1">
+		<p>Salt in ancient<p>
+		<p>Salt in recent</p>
+		<p>Salt used by people</p>
+		<p>Salt used by state</p>
+		<p>&nbsp;</p>
+		<p>More thoughts?</p>
+	</div>
+	<a id="back" href="#">↫</a>
+</div>
 <script>
-var initLoad = true;
-var layerTypes = {
-    'fill': ['fill-opacity'],
-    'line': ['line-opacity'],
-    'circle': ['circle-opacity', 'circle-stroke-opacity'],
-    'symbol': ['icon-opacity', 'text-opacity'],
-    'raster': ['raster-opacity'],
-    'fill-extrusion': ['fill-extrusion-opacity'],
-    'heatmap': ['heatmap-opacity']
-}
+	const initialLocation = {
+		center: { lon: 107.50165, lat: 33.88140 },
+		zoom: 2.66,
+		pitch: 0.00,
+		bearing: 0.00
+	};
+	mapboxgl.accessToken = 'pk.eyJ1IjoibWF5cTA0MjIiLCJhIjoiY2phamMwOHV4MjllajMzbnFyeTMwcmZvYiJ9.aFMw4Aws5zY9Y4NwYqFMlQ';
+	const map = new mapboxgl.Map({
+			container: 'map',
+			style: {
+					'version': 8,
+					'sources': {
+							'raster-tiles': {
+									'type': 'raster',
+									'tiles': [
+											'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg'
+									],
+									'tileSize': 256,
+									'attribution':
+											'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+							}
+					},
+					'layers': [
+							{
+									'id': 'simple-tiles',
+									'type': 'raster',
+									'source': 'raster-tiles',
+									'minzoom': 0,
+									'maxzoom': 22
+							}
+					]
+			},
+			...initialLocation
+	});
 
-var alignments = {
-    'left': 'lefty',
-    'center': 'centered',
-    'right': 'righty',
-    'full': 'fully'
-}
+	var marker = new mapboxgl.Marker({ color: "#10899d" });
+  marker.setLngLat({ lon: 0, lat: 0 }).addTo(map);
 
-function getLayerPaintType(layer) {
-    var layerType = map.getLayer(layer).type;
-    return layerTypes[layerType];
-}
+	window.addEventListener("hashchange", () => {
+		readHashToPage();
+	});
 
-function setLayerOpacity(layer) {
-    var paintProps = getLayerPaintType(layer.layer);
-    paintProps.forEach(function(prop) {
-        var options = {};
-        if (layer.duration) {
-            var transitionProp = prop + "-transition";
-            options = { "duration": layer.duration };
-            map.setPaintProperty(layer.layer, transitionProp, options);
-        }
-        map.setPaintProperty(layer.layer, prop, layer.opacity, options);
-    });
-}
+	function readHashToPage() {
+		const pageName = window.location.hash.replace("#", "");
+		console.log("page:", pageName);
+		const pages = document.querySelectorAll(".page");
+		for (let i = 0; i < pages.length; i++) {
+			pages[i].style.display = "none";
+		}
+		const page = document.getElementById(pageName) || document.getElementById("header");
+		if (page) {
+			page.style.display = "flex";
+			switchPage(pageName)
+		} else {
+			console.error("page not found:", pageName);
+		}
+	}
 
-var story = document.getElementById('story');
-var features = document.createElement('div');
-features.setAttribute('id', 'features');
+	readHashToPage();
 
-var header = document.createElement('div');
+	function switchPage(page) {
+		marker.setLngLat({ lon: 0, lat: 0 });
+		switch (page) {
+			case "ch1":
+				// center: { lon: 118.04982, lat: 36.78486 },
+				marker.setLngLat({ lon: 118.04982, lat: 36.78486 });
+				map.flyTo({
+					center: { lon: 117.97711, lat: 36.81048 },
+					zoom: 4.5,
+					// pitch: 60.00,
+					// bearing: -45.60
+					// duration: 0
+				});
+				break;
+			case "ch2":
+				// 104.2822, 40.5806
+				// xi'an: 108.93888, 34.27908
+				marker.setLngLat({ lon: 108.93888, lat: 34.27908 });
+				map.flyTo({
+					center: { lon: 96.04098, lat: 34.66850 },
+					zoom: 4.17,
+					// duration: 0
+				});
+				break;
+			case "ch3":
+				// kaifeng: { lon: 114.34630, lat: 34.79611 },
+				marker.setLngLat({ lon: 114.34630, lat: 34.79611 });
+				map.flyTo({
+					center: { lon: 108.93888, lat: 34.27908 },
+					zoom: 5.1,
+					// duration: 0
+				});
+				break;
+			default:
+				map.flyTo(initialLocation);
+				break;
+		}
+	}
 
-if (config.title) {
-    var titleText = document.createElement('h1');
-    titleText.innerText = config.title;
-    header.appendChild(titleText);
-}
-
-if (config.subtitle) {
-    var subtitleText = document.createElement('h2');
-    subtitleText.innerText = config.subtitle;
-    header.appendChild(subtitleText);
-}
-
-if (config.byline) {
-    var bylineText = document.createElement('p');
-    bylineText.innerText = config.byline;
-    header.appendChild(bylineText);
-}
-
-if (header.innerText.length > 0) {
-    header.classList.add(config.theme);
-    header.setAttribute('id', 'header');
-    story.appendChild(header);
-}
-
-config.chapters.forEach((record, idx) => {
-    var container = document.createElement('div');
-    var chapter = document.createElement('div');
-
-    if (record.title) {
-        var title = document.createElement('h3');
-        title.innerText = record.title;
-        chapter.appendChild(title);
-    }
-
-    if (record.image) {
-        var image = new Image();
-        image.src = record.image;
-        chapter.appendChild(image);
-    }
-
-    if (record.description) {
-        var story = document.createElement('p');
-        story.innerHTML = record.description;
-        chapter.appendChild(story);
-    }
-
-    container.setAttribute('id', record.id);
-    container.classList.add('step');
-    if (idx === 0) {
-        container.classList.add('active');
-    }
-
-    chapter.classList.add(config.theme);
-    container.appendChild(chapter);
-    container.classList.add(alignments[record.alignment] || 'centered');
-    if (record.hidden) {
-        container.classList.add('hidden');
-    }
-    features.appendChild(container);
-});
-
-story.appendChild(features);
-
-var footer = document.createElement('div');
-
-if (config.footer) {
-    var footerText = document.createElement('p');
-    footerText.innerHTML = config.footer;
-    footer.appendChild(footerText);
-}
-
-if (footer.innerText.length > 0) {
-    footer.classList.add(config.theme);
-    footer.setAttribute('id', 'footer');
-    story.appendChild(footer);
-}
-
-mapboxgl.accessToken = config.accessToken;
-
-const transformRequest = (url) => {
-    const hasQuery = url.indexOf("?") !== -1;
-    const suffix = hasQuery ? "&pluginName=scrollytellingV2" : "?pluginName=scrollytellingV2";
-    return {
-      url: url + suffix
-    }
-}
-
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: config.style,
-    center: config.chapters[0].location.center,
-    zoom: config.chapters[0].location.zoom,
-    bearing: config.chapters[0].location.bearing,
-    pitch: config.chapters[0].location.pitch,
-    interactive: false,
-    transformRequest: transformRequest,
-    projection: config.projection
-});
-
-// Create a inset map if enabled in config.js
-if (config.inset) {
- var insetMap = new mapboxgl.Map({
-    container: 'mapInset', // container id
-    style: 'mapbox://styles/mapbox/dark-v10', //hosted style id
-    center: config.chapters[0].location.center,
-    // Hardcode above center value if you want insetMap to be static.
-    zoom: 3, // starting zoom
-    hash: false,
-    interactive: false,
-    attributionControl: false,
-    //Future: Once official mapbox-gl-js has globe view enabled,
-    //insetmap can be a globe with the following parameter.
-    //projection: 'globe'
-  });
-}
-
-if (config.showMarkers) {
-    var marker = new mapboxgl.Marker({ color: config.markerColor });
-    marker.setLngLat(config.chapters[0].location.center).addTo(map);
-}
-
-// instantiate the scrollama
-var scroller = scrollama();
-
-
-map.on("load", function() {
-    if (config.use3dTerrain) {
-        map.addSource('mapbox-dem', {
-            'type': 'raster-dem',
-            'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-            'tileSize': 512,
-            'maxzoom': 14
-        });
-        // add the DEM source as a terrain layer with exaggerated height
-        map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
-
-        // add a sky layer that will show when the map is highly pitched
-        map.addLayer({
-            'id': 'sky',
-            'type': 'sky',
-            'paint': {
-                'sky-type': 'atmosphere',
-                'sky-atmosphere-sun': [0.0, 0.0],
-                'sky-atmosphere-sun-intensity': 15
-            }
-        });
-    };
-
-    // As the map moves, grab and update bounds in inset map.
-    if (config.inset) {
-    map.on('move', getInsetBounds);
-    }
-    // setup the instance, pass callback functions
-    scroller
-    .setup({
-        step: '.step',
-        offset: 0.5,
-        progress: true
-    })
-    .onStepEnter(async response => {
-        var chapter = config.chapters.find(chap => chap.id === response.element.id);
-        response.element.classList.add('active');
-        map[chapter.mapAnimation || 'flyTo'](chapter.location);
-        // Incase you do not want to have a dynamic inset map,
-        // rather want to keep it a static view but still change the
-        // bbox as main map move: comment out the below if section.
-        if (config.inset) {
-          if (chapter.location.zoom < 5) {
-            insetMap.flyTo({center: chapter.location.center, zoom: 0});
-          }
-          else {
-            insetMap.flyTo({center: chapter.location.center, zoom: 3});
-          }
-        }
-        if (config.showMarkers) {
-            marker.setLngLat(chapter.location.center);
-        }
-        if (chapter.onChapterEnter.length > 0) {
-            chapter.onChapterEnter.forEach(setLayerOpacity);
-        }
-        if (chapter.callback) {
-            window[chapter.callback]();
-        }
-        if (chapter.rotateAnimation) {
-            map.once('moveend', () => {
-                const rotateNumber = map.getBearing();
-                map.rotateTo(rotateNumber + 180, {
-                    duration: 30000, easing: function (t) {
-                        return t;
-                    }
-                });
-            });
-        }
-    })
-    .onStepExit(response => {
-        var chapter = config.chapters.find(chap => chap.id === response.element.id);
-        response.element.classList.remove('active');
-        if (chapter.onChapterExit.length > 0) {
-            chapter.onChapterExit.forEach(setLayerOpacity);
-        }
-    });
-});
-
-//Helper functions for insetmap
-function getInsetBounds() {
-            let bounds = map.getBounds();
-
-            let boundsJson = {
-                "type": "FeatureCollection",
-                "features": [{
-                    "type": "Feature",
-                    "properties": {},
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [
-                            [
-                                [
-                                    bounds._sw.lng,
-                                    bounds._sw.lat
-                                ],
-                                [
-                                    bounds._ne.lng,
-                                    bounds._sw.lat
-                                ],
-                                [
-                                    bounds._ne.lng,
-                                    bounds._ne.lat
-                                ],
-                                [
-                                    bounds._sw.lng,
-                                    bounds._ne.lat
-                                ],
-                                [
-                                    bounds._sw.lng,
-                                    bounds._sw.lat
-                                ]
-                            ]
-                        ]
-                    }
-                }]
-            }
-
-            if (initLoad) {
-                addInsetLayer(boundsJson);
-                initLoad = false;
-            } else {
-                updateInsetLayer(boundsJson);
-            }
-
-        }
-
-function addInsetLayer(bounds) {
-    insetMap.addSource('boundsSource', {
-        'type': 'geojson',
-        'data': bounds
-    });
-
-    insetMap.addLayer({
-        'id': 'boundsLayer',
-        'type': 'fill',
-        'source': 'boundsSource', // reference the data source
-        'layout': {},
-        'paint': {
-            'fill-color': '#fff', // blue color fill
-            'fill-opacity': 0.2
-        }
-    });
-    // // Add a black outline around the polygon.
-    insetMap.addLayer({
-        'id': 'outlineLayer',
-        'type': 'line',
-        'source': 'boundsSource',
-        'layout': {},
-        'paint': {
-            'line-color': '#000',
-            'line-width': 1
-        }
-    });
-}
-
-function updateInsetLayer(bounds) {
-    insetMap.getSource('boundsSource').setData(bounds);
-}
-
-
-
-// setup resize event
-window.addEventListener('resize', scroller.resize);
-
+	(function enableQues() {
+		const ques = document.querySelectorAll(".ques");
+		for (let i = 0; i < ques.length; i++) {
+			const q = ques[i];
+			const buttons = q.querySelectorAll(".options .button");
+			// console.log(buttons);
+			[...buttons].forEach((btn) => {
+				btn.addEventListener("click", () => {
+					[...buttons].forEach((btn) => { btn.classList.remove("selected"); });
+					btn.classList.add("selected");
+					q.classList.add("answered");
+				});
+			});
+		}
+	})();
 </script>
 
 </body>
