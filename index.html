@@ -25,6 +25,12 @@ a:visited {
 	font-weight: bold;
 	text-decoration: underline;
 }
+.highlight-line {
+	font-weight: bold;
+}
+.highlight-line::before {
+	content: "▎";
+}
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 #content {
 	position: absolute;
@@ -188,7 +194,7 @@ If you were Guanzi, you would:</p>
 					<p>Even in China today, most taxes are taken as hidden taxes.</p>
 					<p>You can hardly see the tax rate on a receipt.</p>
 					<p>&nbsp;</p>
-					<p>What is the tax form in your place?</p>
+					<p class="highlight-line">What is the tax form in your place?</p>
 				</div>
 				<a class="button" style="float: right;" href="#ch2">Next</a>
 			</div>
@@ -210,7 +216,7 @@ If you were Guanzi, you would:</p>
 					<p>However, monopoly is not the whole of economic policy, which has a range of measures, such as price adjustment policy(Pingzhun, 平准):</p>
 					<p>The national treasury would purchase consumer goods when the prices were low and sell them when the prices were high at profit. Thus making sure the price fluctuation would not be too great.</p>
 					<p>&nbsp;</p>
-					<p>Have you seen similar economic policies?</p>
+					<p class="highlight-line">Have you seen similar economic policies?</p>
 					<!-- <p>There was also a famous debate in the Han Dynasty, Discourses on Salt and Iron.</p> -->
 				</div>
 				<div class="interesting">
@@ -237,12 +243,19 @@ If you were Guanzi, you would:</p>
 				<p>Once the trade was banned, it was difficult for the Xia to consume so much salt because of its own small population.</p>
 				<p>Apparently, the Song used salt as an economic weapon.</p>
 				<p>&nbsp;</p>
-				<p>Do you know other economic wars? What are weapons there?</p>
+				<p class="highlight-line">Do you know other economic wars? What are weapons there?</p>
 				<a class="button" style="float: right;" href="#end">Next</a>
 			</div>
 		</div>
 	</div>
 	<div id="end" class="page center info text1">
+		<p>We examined salt ...</p>
+		<ul>
+			<li>as an indirect tax.</li>
+			<li>as a tool of fiscal policy.</li>
+			<li>as a trade war weapon.</li>
+		</ul>
+		<p>&nbsp;</p>
 		<p>Salt in ancient<p>
 		<p>Salt in recent</p>
 		<p>Salt used by people</p>
