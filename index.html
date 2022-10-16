@@ -93,6 +93,18 @@ a:visited {
 	color: var(--main-text-color);
 	text-shadow: 2px 1px 1px white;
 }
+.ques {
+	font-family: sans-serif;
+	line-height: 1.8;
+}
+.ques-body {
+	overflow-y: auto;
+	max-height: 80vh;
+	padding: 10px;
+}
+.answered .ques-body {
+	box-shadow: inset 0px -1px 2px #4d4d4d;
+}
 .options .button[data-right].selected::before {
 	content: "✅";
 }
@@ -100,10 +112,20 @@ a:visited {
 	content: "❌";
 }
 .explanation {
+	display: none;
 	opacity: 0;
 	transition: 1s;
 }
 .answered .explanation {
+	display: initial;
+	opacity: 1;
+}
+.ques .button.next {
+	pointer-events: none;
+	opacity: 0.2;
+}
+.answered .button.next {
+	pointer-events: auto;
 	opacity: 1;
 }
 .interesting {
@@ -171,87 +193,93 @@ a:visited {
 	</div>
 	<div id="ch1" class="page ques">
 		<div class="info card">
-			<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Guan_Zhong.png/168px-Guan_Zhong.png" />
-			<p>State of Qi (1046-221 BC, 齐国) was rich in salt.</p>
-			<p>Once, the politician Guan Zhong (Guanzi) and Duke Huan were discussing economic policies.</p>
-			<!-- <p>"The state of Qi is rich in salt. If we were to tax salt, we would be able to raise a large amount of money. But if we were to tax salt, the people would be unhappy."</p> -->
-			<!-- <p>“I wish to place a special tax on trees.”
-	“This will lead to chopping down those that are alive.” Guanzi replied.
-“I wish to place a special tax on the six domestic animals.”
-	“This will lead to killing the living.”
-</p> -->
-			<p style="white-space: pre;">“I wish to place a special tax on towers and pavilions. What about it?”
-	“This will harm construction,” replied Guanzi.
-	...
-“I wish to place a special tax on men. What about that?”
-	“That will lead to their concealing their true numbers.”
-“How am I to run the country?”
-If you were Guanzi, you would:</p>
-			<div class="options" style="margin: 1rem 0;">
-				<p class="button" data-wrong>A: place a special tax on salt.</p>
-				<p class="button" data-right>B: place a monopoly on salt.</p>
-			</div>
-			<div class="explanation">
-				<div>
-					<p>What is the difference between them?</p>
-					<p>The monopoly on salt is an indirect tax.</p>
-					<p>Guan Zhong argued that <span class="bold">direct taxes</span> created resentment among the people, but extolled <span class="bold">indirect taxes</span>, such as those on salt and iron.</p>
-					<p>&nbsp;</p>
-					<p>Even in China today, most taxes are taken as hidden taxes.</p>
-					<p>You can hardly see the tax rate on a receipt.</p>
-					<p>&nbsp;</p>
-					<p class="highlight-line">What is the tax form in your place?</p>
+			<div class="ques-body">
+				<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Guan_Zhong.png/168px-Guan_Zhong.png" />
+				<p>State of Qi (1046-221 BC, 齐国) was rich in salt.</p>
+				<p>Once, the politician Guan Zhong (Guanzi) and Duke Huan were discussing economic policies.</p>
+				<!-- <p>"The state of Qi is rich in salt. If we were to tax salt, we would be able to raise a large amount of money. But if we were to tax salt, the people would be unhappy."</p> -->
+				<!-- <p>“I wish to place a special tax on trees.”
+		“This will lead to chopping down those that are alive.” Guanzi replied.
+	“I wish to place a special tax on the six domestic animals.”
+		“This will lead to killing the living.”
+	</p> -->
+				<p>“I wish to place a special tax on towers and pavilions. What about it?”</p>
+	<p>“This will harm construction,” replied Guanzi.</p>
+	<p>...</p>
+	<p>“I wish to place a special tax on men. What about that?”</p>
+	<p>“That will lead to their concealing their true numbers.”</p>
+	<p>“How am I to run the country?”</p>
+	<p>If you were Guanzi, you would:</p>
+				<div class="options" style="margin: 1rem 0;">
+					<p class="button" data-wrong>A: place a special tax on salt.</p>
+					<p class="button" data-right>B: place a monopoly on salt.</p>
 				</div>
-				<a class="button" style="float: right;" href="#ch2">Next</a>
+				<div class="explanation">
+					<div>
+						<p>What is the difference between them?</p>
+						<p>The monopoly on salt is an indirect tax.</p>
+						<p>Guan Zhong argued that <span class="bold">direct taxes</span> created resentment among the people, but extolled <span class="bold">indirect taxes</span>, such as those on salt and iron.</p>
+						<p>&nbsp;</p>
+						<p>Even in China today, most taxes are taken as hidden taxes.</p>
+						<p>You can hardly see the tax rate on a receipt.</p>
+						<p>&nbsp;</p>
+						<p class="highlight-line">What is the tax form in your place?</p>
+					</div>
+				</div>
 			</div>
+			<a class="button next" style="float: right;" href="#ch2">Next</a>
 		</div>
 	</div>
 	<div id="ch2" class="page ques">
 		<div class="info card">
-			<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/%E6%BC%A2%E6%AD%A6%E5%B8%9D.jpg/176px-%E6%BC%A2%E6%AD%A6%E5%B8%9D.jpg" />
-			<p>Emperor Wu of Han (156-87 BC, 汉武帝) was considering whether to carry out economic reforms, including restoring a monopoly on salt. But it would increase the burden of the people.</p>
-			<p>If you were Emperor Wu, you would:</p>
-			<div class="options" style="margin: 1rem 0;">
-				<p class="button" data-right>A: place the monopoly on salt and iron.</p>
-				<p class="button" data-wrong>B: continue the policy of doing nothing.</p>
-			</div>
-			<div class="explanation">
-				<div>
-					<p>In reaction to Emperor Wu' expansionary wars, his agricultural minister Sang Hongyang created national monopolies for salt and iron.</p>
-					<p>&nbsp;</p>
-					<p>However, monopoly is not the whole of economic policy, which has a range of measures, such as price adjustment policy(Pingzhun, 平准):</p>
-					<p>The national treasury would purchase consumer goods when the prices were low and sell them when the prices were high at profit. Thus making sure the price fluctuation would not be too great.</p>
-					<p>&nbsp;</p>
-					<p class="highlight-line">Have you seen similar economic policies?</p>
-					<!-- <p>There was also a famous debate in the Han Dynasty, Discourses on Salt and Iron.</p> -->
+			<div class="ques-body">
+				<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/%E6%BC%A2%E6%AD%A6%E5%B8%9D.jpg/176px-%E6%BC%A2%E6%AD%A6%E5%B8%9D.jpg" />
+				<p>Emperor Wu of Han (156-87 BC, 汉武帝) was considering whether to carry out economic reforms, including restoring a monopoly on salt. But it would increase the burden of the people.</p>
+				<p>If you were Emperor Wu, you would:</p>
+				<div class="options" style="margin: 1rem 0;">
+					<p class="button" data-right>A: place the monopoly on salt and iron.</p>
+					<p class="button" data-wrong>B: continue the policy of doing nothing.</p>
 				</div>
-				<div class="interesting">
-					<p>Interesting hypothesis:</p>
-					<p>You "killed"/"saved" Rome!</p>
-					<p>There is a hypothesis that the Xiongnu were defeated by the Han Dynasty and migrated to Europe, i.e. the Huns, which eventually caused the fall of Rome.</p>
+				<div class="explanation">
+					<div>
+						<p>In reaction to Emperor Wu' expansionary wars, his agricultural minister Sang Hongyang created national monopolies for salt and iron.</p>
+						<p>&nbsp;</p>
+						<p>However, monopoly is not the whole of economic policy, which has a range of measures, such as price adjustment policy(Pingzhun, 平准):</p>
+						<p>The national treasury would purchase consumer goods when the prices were low and sell them when the prices were high at profit. Thus making sure the price fluctuation would not be too great.</p>
+						<p>&nbsp;</p>
+						<p class="highlight-line">Have you seen similar economic policies?</p>
+						<!-- <p>There was also a famous debate in the Han Dynasty, Discourses on Salt and Iron.</p> -->
+					</div>
+					<div class="interesting">
+						<p>Interesting hypothesis:</p>
+						<p>You "killed"/"saved" Rome!</p>
+						<p>There is a hypothesis that the Xiongnu were defeated by the Han Dynasty and migrated to Europe, i.e. the Huns, which eventually caused the fall of Rome.</p>
+					</div>
 				</div>
-				<a class="button" style="float: right;" href="#ch3">Next</a>
 			</div>
+			<a class="button next" style="float: right;" href="#ch3">Next</a>
 		</div>
 	</div>
 	<div id="ch3" class="page ques">
 		<div class="info card">
-			<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/%E4%BA%94%E8%B7%AF%E4%BC%90%E5%A4%8F%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png/320px-%E4%BA%94%E8%B7%AF%E4%BC%90%E5%A4%8F%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png" />
-			<p>Northern Song dynasty and Western Xia dynasty had military conflicts. (10th to 12th century)</p>
-			<p>The Xia had famed ‘dark and white salt’, both of high quality and at low prices.</p>
-			<p>If you were the Emperor of Song, you would:</p>
-			<div class="options" style="margin: 1rem 0;">
-				<p class="button" data-wrong>A: impose tariff on salt.</p>
-				<p class="button" data-right>B: ban on salt import.</p>
+			<div class="ques-body">
+				<img style="height: 150px; object-fit: contain;width:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/%E4%BA%94%E8%B7%AF%E4%BC%90%E5%A4%8F%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png/320px-%E4%BA%94%E8%B7%AF%E4%BC%90%E5%A4%8F%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png" />
+				<p>Northern Song dynasty and Western Xia dynasty had military conflicts. (10th to 12th century)</p>
+				<p>The Xia had famed ‘dark and white salt’, both of high quality and at low prices.</p>
+				<p>If you were the Emperor of Song, you would:</p>
+				<div class="options" style="margin: 1rem 0;">
+					<p class="button" data-wrong>A: impose tariff on salt.</p>
+					<p class="button" data-right>B: ban on salt import.</p>
+				</div>
+				<div class="explanation">
+					<p>The Xia made a lot of profit from the salt trade.</p>
+					<p>Once the trade was banned, it was difficult for the Xia to consume so much salt because of its own small population.</p>
+					<p>Apparently, the Song used salt as an economic weapon.</p>
+					<p>&nbsp;</p>
+					<p class="highlight-line">Do you know other economic wars? What are weapons there?</p>
+				</div>
 			</div>
-			<div class="explanation">
-				<p>The Xia made a lot of profit from the salt trade.</p>
-				<p>Once the trade was banned, it was difficult for the Xia to consume so much salt because of its own small population.</p>
-				<p>Apparently, the Song used salt as an economic weapon.</p>
-				<p>&nbsp;</p>
-				<p class="highlight-line">Do you know other economic wars? What are weapons there?</p>
-				<a class="button" style="float: right;" href="#end">Next</a>
-			</div>
+			<a class="button next" style="float: right;" href="#end">Next</a>
 		</div>
 	</div>
 	<div id="end" class="page center info glass-card text1">
